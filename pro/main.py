@@ -38,9 +38,9 @@ if __name__ == '__main__':
     # data loader
     parser.add_argument('--data', type=str, required=False, default='RYE', help='dataset type Energy ')
     parser.add_argument('--root_path', type=str,
-                        default='/root/autodl-tmp/GPTNET/datasets/OPSD/GE/',
+                        default='/root/autodl-tmp/GPTNET/datasets/OPSD/AT/',
                         help='root path of the data file Correlation_analysis/OPSD')
-    parser.add_argument('--data_path', type=str, default='GE_net_load.csv', help='data file net_load_1.csv / BE_data_time_gai_1.csv / GE_net_load.csv   /france_net_1.csv Rye_dan_1.csv')
+    parser.add_argument('--data_path', type=str, default='net_load_1.csv', help='data file net_load_1.csv / BE_data_time_gai_1.csv / GE_net_load.csv   /france_net_1.csv Rye_dan_1.csv')
     parser.add_argument('--features', type=str, default='M',
                         help='forecasting task, options:[M, S, MS]; M:multivariate predict multivariate, S:univariate predict univariate, MS:multivariate predict univariate')
     parser.add_argument('--target', type=str, default='net_load', help='target feature in S or MS task')
@@ -146,28 +146,18 @@ if __name__ == '__main__':
     parser.add_argument('--augmentation_ratio', type=int, default=0, help="How many times to augment")
     parser.add_argument('--seed', type=int, default=2025, help="Randomization seed")
 
-    #tempo
-    # parser.add_argument('--pool', action='store_true', help='whether use prompt pool')
-    # parser.add_argument('--pretrain', type=int, default=1)
-    # parser.add_argument('--is_gpt', type=int, default=1)
-    # parser.add_argument('--prompt', type=int, default=0)
-    # parser.add_argument('--use_token', type=int, default=0)
-    # parser.add_argument('--freeze', type=int, default=1)
-    # parser.add_argument('--num_nodes', type=int, default=1)
-    # parser.add_argument('--loss_func', type=str, default='mse')
+
 
     args = parser.parse_args()
     args.use_gpu = True if torch.cuda.is_available() else False
-   # set gpu id
+
     if args.use_gpu and args.use_multi_gpu:
         args.devices = args.devices.replace(' ', '')
         device_ids = args.devices.split(',')
         args.device_ids = [int(id_) for id_ in device_ids]
         args.gpu = args.device_ids[0]
 
-    # print arguments
-    # print_args(args)
-    # print_hyperparameters(args)
+
 
     if args.task_name == 'long_term_forecast':
         Exp = Exp_Long_Term_Forecast
@@ -175,7 +165,7 @@ if __name__ == '__main__':
         Exp = Exp_Few_Shot_Forecast
     else:
      print("请指定任务")
-       # Exp = Exp_Long_Term_Forecast
+
     rmse_list=[]
     mae_list=[]
     if args.is_training:
@@ -228,8 +218,4 @@ if __name__ == '__main__':
     print(">>>>>>>>>>>>>>>>my test rmse and mae<<<<<<<<<<<<<<<<<<<")
     print('rmse_after_avg: {},mae_after_avg: {}'.format(rmse_avg, mae_avg))
     print('rmse_after_0: {},mae_after_0: {}'.format(rmse_list[0], mae_list[0]))
-# #     # print('rmse_after_1: {},mae_after_1: {}'.format(rmse_list[1], mae_list[1]))
-# #     # print('rmse_after_2: {},mae_after_2: {}'.format(rmse_list[2], mae_list[2]))
-# #
-# #     # with open('/tmp/zfh_1/net_load_forecasting/PIC/methods_pic/AT/zhibiao.txt', 'a') as f:#'/tmp/zfh_1/net_load_forecasting/PIC/methods_pic/zhibiao_methods.txt'
-# #     #     f.write(f"\ngptnet间接_19_GPTNET_1:\nRMSE: {rmse_avg:.6f}\nMAE: {mae_avg:.6f}\n")#gptnet_adapter
+
